@@ -73,3 +73,24 @@ ulWrapper.addEventListener('click', function (event) {
 
 
 renderTodos();
+
+// modal for task ===
+const taskModalEl = document.getElementById('taskModal');
+const taskModal = new bootstrap.Modal(taskModalEl);
+const taskModalBody = taskModalEl.querySelector('.modal-body');
+
+// deleg
+ulWrapper.addEventListener('click', function (event) {
+    // ignoring delete and checkbox click
+    if (event.target.classList.contains('todo-item__delete')) return;
+    if (event.target.matches('input[type="checkbox"]')) return;
+
+    const li = event.target.closest('.todo-item');
+    if (!li) return;
+
+    const text = li.querySelector('.todo-item__description')?.textContent?.trim() || '';
+    if (!text) return;
+
+    taskModalBody.textContent = text; // past the text
+    taskModal.show();
+});
