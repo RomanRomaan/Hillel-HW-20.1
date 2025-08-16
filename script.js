@@ -42,20 +42,19 @@ function saveTodos() {
 }
 
 
-formBtn.addEventListener('click', function (event) {
+$(formBtn).on('click', function (event) {
     event.preventDefault();
-    const formInput = form.querySelector('input');
-    if (formInput.value.trim()) {
+    const formInput = $(form).find('input');
+    if (formInput.val().trim()) {
         todos.push({
-            text: formInput.value.trim(),
+            text: formInput.val().trim(),
             completed: false
         });
         saveTodos();
         renderTodos();
-        formInput.value = '';
+        formInput.val('');
     }
 });
-
 
 ulWrapper.addEventListener('click', function (event) {
     const idx = event.target.dataset.idx;
@@ -81,6 +80,8 @@ const taskModalBody = taskModalEl.querySelector('.modal-body');
 
 // deleg
 ulWrapper.addEventListener('click', function (event) {
+
+
     // ignoring delete and checkbox click
     if (event.target.classList.contains('todo-item__delete')) return;
     if (event.target.matches('input[type="checkbox"]')) return;
@@ -88,8 +89,10 @@ ulWrapper.addEventListener('click', function (event) {
     const li = event.target.closest('.todo-item');
     if (!li) return;
 
+
     const text = li.querySelector('.todo-item__description')?.textContent?.trim() || '';
     if (!text) return;
+    if (text === 'без модалки') return;
 
     taskModalBody.textContent = text; // past the text
     taskModal.show();
